@@ -15,7 +15,7 @@ import java.util.function.Function;
 // Convertidor de Velocidad
 class Velocidad extends Convertidor {
     private static final Map<String, Function<BigDecimal, BigDecimal>> conversiones = new HashMap<>();
-    private static final MathContext mc = new MathContext(30); // La precisión a 30 dígitos por si las moscass
+    private static final MathContext mc = new MathContext(30); // La precisión a 30 dígitos por si las moscas
 
     static {
         // Conversiones a m/s
@@ -54,6 +54,6 @@ class Velocidad extends Convertidor {
         String clave = unidadOrigen + "->" + unidadDestino;
         Function<BigDecimal, BigDecimal> conversion = conversiones.get(clave);
         BigDecimal valorBD = BigDecimal.valueOf(valor);
-        return conversion != null ? String.format("%.2f %s", conversion.apply(valorBD), unidadDestino) : "Conversión no soportada";
+        return conversion != null ? String.format("%s %s", conversion.apply(valorBD).toEngineeringString(), unidadDestino) : "Conversión no soportada";
     }
 }
