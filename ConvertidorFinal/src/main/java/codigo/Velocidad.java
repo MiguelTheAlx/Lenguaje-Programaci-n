@@ -1,4 +1,6 @@
-// Unidades de velocidad soportadas:
+package codigo;
+
+// Unidades de velocidad soportadas: P(5, 2) = 20 combinaciones posibles
 // - Metro por segundo (m/s)
 // - Kilómetro por hora (km/h)
 // - Milla por hora (mph)
@@ -13,10 +15,34 @@ import java.util.Map;
 import java.util.function.Function;
 
 // Convertidor de Velocidad
-class Velocidad extends Convertidor {
+public class Velocidad extends Convertidor {
+    //atributos
     private static final Map<String, Function<BigDecimal, BigDecimal>> conversiones = new HashMap<>();
     private static final MathContext mc = new MathContext(30); // La precisión a 30 dígitos por si las moscas
 
+    //metodo constructor
+    public Velocidad(double valor) {
+        super(valor);
+    }
+    
+    //metodos setters y getters
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public static Map<String, Function<BigDecimal, BigDecimal>> getConversiones() {
+        return conversiones;
+    }
+
+    public static MathContext getMc() {
+        return mc;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    
     static {
         // Conversiones a m/s
         conversiones.put("km/h->m/s", valor -> valor.divide(BigDecimal.valueOf(3.6), mc)); // Kilómetro por hora a metro por segundo
@@ -45,15 +71,20 @@ class Velocidad extends Convertidor {
         conversiones.put("kn->ft/s", valor -> valor.multiply(BigDecimal.valueOf(1.68781), mc)); // Nudo a pie por segundo
     }
 
-    public Velocidad(double valor) {
-        super(valor);
-    }
-
     @Override
     public String convertir(String unidadOrigen, String unidadDestino) {
-        String clave = unidadOrigen + "->" + unidadDestino;
-        Function<BigDecimal, BigDecimal> conversion = conversiones.get(clave);
-        BigDecimal valorBD = BigDecimal.valueOf(valor);
-        return conversion != null ? String.format("%s %s", conversion.apply(valorBD).toEngineeringString(), unidadDestino) : "Conversión no soportada";
-    }
+        
+        BigDecimal resultado = unidadOrigen.equals(unidadDestino) 
+                ? BigDecimal.valueOf(valor) 
+                : conversiones.containsKey(unidadOrigen + "->" + unidadDestino) 
+                    ? conversiones.get(unidadOrigen + "->" + unidadDestino).apply(BigDecimal.valueOf(valor)) 
+                    : null;
+
+            return resultado == null 
+                ? "Conversión no soportada" 
+                : resultado.compareTo(BigDecimal.valueOf(1e20)) >= 0 
+                    ? String.format("%.16e %s", resultado, unidadDestino) 
+                    : String.format("%,.16f %s", resultado, unidadDestino);
+}
+
 }

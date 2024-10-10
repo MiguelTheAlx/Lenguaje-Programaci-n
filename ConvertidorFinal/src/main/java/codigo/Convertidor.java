@@ -1,3 +1,5 @@
+package codigo;
+
 public abstract class Convertidor{//Clase principal de convertidor para las otras clases
     //atributo valor ingresado
     protected double valor;

@@ -1,3 +1,5 @@
+package codigo;
+
 //importaciones
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,23 +17,32 @@ public class Ejecutar {
     );
 
 
-    //mapa de las unidades de datos
+     // Mapa de las unidades de tamaño de datos
     private static final Map<Integer, String> unidadesDatos = Map.ofEntries(
-        Map.entry(1, "bps"),
-        Map.entry(2, "kbps"),
-        Map.entry(3, "Mbps"),
-        Map.entry(4, "Gbps"),
-        Map.entry(5, "Tbps"),
-        Map.entry(6, "Kibit/s"),
-        Map.entry(7, "Mibit/s"),
-        Map.entry(8, "Gibit/s"),
-        Map.entry(9, "Tibit/s"),
-        Map.entry(10, "kB/s"),
-        Map.entry(11, "MB/s"),
-        Map.entry(12, "GB/s"),
-        Map.entry(13, "TB/s")
+        Map.entry(1, "b"),
+        Map.entry(2, "Kb"),
+        Map.entry(3, "Mb"),
+        Map.entry(4, "Gb"),
+        Map.entry(5, "Tb"),
+        Map.entry(6, "Pb"),
+        Map.entry(7, "Eb"),
+        Map.entry(8, "Zb"),
+        Map.entry(9, "Yb"),
+        Map.entry(10, "Kib"),
+        Map.entry(11, "Mib"),
+        Map.entry(12, "Gib"),
+        Map.entry(13, "Tib"),
+        Map.entry(14, "KB"),
+        Map.entry(15, "MB"),
+        Map.entry(16, "GB"),
+        Map.entry(17, "TB"),
+        Map.entry(18, "PB"),
+        Map.entry(19, "EB"),
+        Map.entry(20, "ZB"),
+        Map.entry(21, "YB"),
+        Map.entry(22, "PiB")
     );
-
+    
     //mapa de seleccion de opciones de menu
     private static final Map<Integer, Consumer<Scanner>> opciones = new LinkedHashMap<>();
 
@@ -80,7 +91,6 @@ public class Ejecutar {
         System.out.println(valor + " " + unidadOrigen + " a " + unidadDestino + ": " + convertidor.convertir(unidadOrigen, unidadDestino));
     }
 
-    //metodo para conversion de tasa de transmicion de datos
     private static void convertirDatos(Scanner scanner) {
         System.out.println("Ingrese el valor a convertir:");
         double valor = scanner.nextDouble();
@@ -98,5 +108,6 @@ public class Ejecutar {
         Convertidor convertidor = new Datos(valor);
         System.out.println(valor + " " + unidadOrigen + " a " + unidadDestino + ": " + convertidor.convertir(unidadOrigen, unidadDestino));
     }
+
 }
 
