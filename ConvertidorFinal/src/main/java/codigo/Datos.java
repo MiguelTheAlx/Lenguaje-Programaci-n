@@ -81,6 +81,7 @@ public class Datos extends Convertidor {
         factores.put("YB", new BigDecimal("8000000000000000000000000"));
     }
 
+    
     @Override
     public String convertir(String unidadOrigen, String unidadDestino) {
         BigDecimal valorBD = BigDecimal.valueOf(valor);
@@ -90,10 +91,13 @@ public class Datos extends Convertidor {
         BigDecimal resultado = (factorOrigen == null || factorDestino == null) 
             ? null 
             : valorBD.multiply(factorOrigen).divide(factorDestino, mc);
-        
+
         // Ajustar el formato para manejar valores muy pequeños y muy grandes
-        return (resultado.compareTo(BigDecimal.valueOf(1e-3)) < 0 || resultado.compareTo(BigDecimal.valueOf(1e3)) > 0) 
-            ? String.format("%.16e %s", resultado, unidadDestino) 
-            : String.format("%,.16f %s", resultado, unidadDestino);
+        return resultado == null 
+            ? null 
+            : (resultado.compareTo(BigDecimal.valueOf(1e-3)) < 0 || resultado.compareTo(BigDecimal.valueOf(1e3)) > 0) 
+                ? String.format("%e %s", resultado, unidadDestino) 
+                : String.format("%,.2f %s", resultado, unidadDestino);
     }
+
 }

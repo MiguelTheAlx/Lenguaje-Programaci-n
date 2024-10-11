@@ -72,19 +72,20 @@ public class Velocidad extends Convertidor {
     }
 
     @Override
-    public String convertir(String unidadOrigen, String unidadDestino) {
-        
-        BigDecimal resultado = unidadOrigen.equals(unidadDestino) 
-                ? BigDecimal.valueOf(valor) 
-                : conversiones.containsKey(unidadOrigen + "->" + unidadDestino) 
-                    ? conversiones.get(unidadOrigen + "->" + unidadDestino).apply(BigDecimal.valueOf(valor)) 
-                    : null;
+public String convertir(String unidadOrigen, String unidadDestino) {
+    BigDecimal resultado = unidadOrigen.equals(unidadDestino) 
+        ? BigDecimal.valueOf(valor) 
+        : conversiones.containsKey(unidadOrigen + "->" + unidadDestino) 
+            ? conversiones.get(unidadOrigen + "->" + unidadDestino).apply(BigDecimal.valueOf(valor)) 
+            : null;
 
-            return resultado == null 
-                ? "Conversión no soportada" 
-                : resultado.compareTo(BigDecimal.valueOf(1e20)) >= 0 
-                    ? String.format("%.16e %s", resultado, unidadDestino) 
-                    : String.format("%,.16f %s", resultado, unidadDestino);
+    String formula = unidadOrigen.equals(unidadDestino) 
+        ? String.format("%f %s = %f %s", valor, unidadOrigen, valor, unidadDestino)
+        : String.format("(%f %s * %s = %f %s)", valor, unidadOrigen, conversiones.get(unidadOrigen + "->" + unidadDestino).apply(BigDecimal.ONE).toPlainString(), resultado, unidadDestino);
+
+    return resultado == null 
+        ? "Conversión no soportada" 
+        : String.format("Fórmula: %s\n\nUnidad Origen: %s\nUnidad Destino: %s\nResultado: %,.16f %s", formula, unidadOrigen, unidadDestino, resultado, unidadDestino);
 }
 
 }
